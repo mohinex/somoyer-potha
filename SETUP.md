@@ -1,4 +1,4 @@
-# আজকের আলো — Next.js ও admin panel
+# সময়ের পথ (Somoyer Potha) — Next.js ও admin panel
 
 সাইটটি Next.js App Router-এ চলে। হোমপেজের বর্তমান সংবাদপত্রের ডিজাইন রাখা হয়েছে। `/admin`-এ অনুমোদিত সম্পাদক খবর যোগ, সম্পাদনা, খসড়া/প্রকাশ, ছবি upload ও delete করতে পারবেন। `/article/[slug]`-এ প্রকাশিত খবরের বিস্তারিত দেখা যায়।
 

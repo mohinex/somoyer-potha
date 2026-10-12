@@ -54,7 +54,7 @@ export default function AdminPanel() {
     return ()=>subscription.unsubscribe();
   }, [supabase, verifySession]);
 
-  if (!supabase) return <><header className="top"><div className="wrap head"><Link className="brand" href="/">আজকের আলো<small>সত্যের পথে, মানুষের পাশে</small></Link><nav className="head-links"><Link href="/">সাইট দেখুন ↗</Link></nav></div></header><main className="wrap"><section className="panel login-panel"><h2>Backend সেটআপ বাকি</h2><p className="muted">Supabase project-এর URL ও public anon key Vercel environment variables-এ বসালে admin panel চালু হবে। সেটআপের ধাপ repository-র SETUP.md-এ আছে। service_role key frontend-এ দেবেন না।</p></section></main><footer className="footer"><div className="wrap">© ২০২৬ আজকের আলো</div></footer></>;
+  if (!supabase) return <><header className="top"><div className="wrap head"><Link className="brand" href="/">সময়ের পথ<small>সময়ের সঙ্গে, সত্যের পথে</small></Link><nav className="head-links"><Link href="/">সাইট দেখুন ↗</Link></nav></div></header><main className="wrap"><section className="panel login-panel"><h2>Backend সেটআপ বাকি</h2><p className="muted">Supabase project-এর URL ও public anon key Vercel environment variables-এ বসালে admin panel চালু হবে। সেটআপের ধাপ repository-র SETUP.md-এ আছে। service_role key frontend-এ দেবেন না।</p></section></main><footer className="footer"><div className="wrap">© ২০২৬ সময়ের পথ</div></footer></>;
 
   const update = (key:keyof typeof blank, value:string|boolean) => setForm(current=>({...current,[key]:value}));
   const clearEditor = () => { setEditing(false); setPostId(null); setForm(blank); if(fileRef.current) fileRef.current.value=""; };
@@ -97,7 +97,7 @@ export default function AdminPanel() {
   };
 
   return <>
-    <header className="top"><div className="wrap head"><Link className="brand" href="/">আজকের আলো<small>সত্যের পথে, মানুষের পাশে</small></Link><nav className="head-links"><Link href="/">সাইট দেখুন ↗</Link>{session?.user?.email&&<><span>{session.user.email}</span><button className="btn" onClick={()=>supabase.auth.signOut()}>লগ আউট</button></>}</nav></div></header>
+    <header className="top"><div className="wrap head"><Link className="brand" href="/">সময়ের পথ<small>সময়ের সঙ্গে, সত্যের পথে</small></Link><nav className="head-links"><Link href="/">সাইট দেখুন ↗</Link>{session?.user?.email&&<><span>{session.user.email}</span><button className="btn" onClick={()=>supabase.auth.signOut()}>লগ আউট</button></>}</nav></div></header>
     <main className="wrap">
       {!session&&<section className="panel login-panel"><h2>অ্যাডমিন লগইন</h2><p className="muted">অনুমোদিত account দিয়ে প্রবেশ করুন।</p>{error&&<div className="error">{error}</div>}<form onSubmit={login}><label className="field"><span>ইমেইল</span><input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)}/></label><label className="field"><span>পাসওয়ার্ড</span><input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)}/></label><button className="btn primary">লগইন করুন</button></form></section>}
       {session&&isAdmin&&<><div className="page-title"><div><h1>সংবাদ ব্যবস্থাপনা</h1><p>নতুন সংবাদ লিখুন, সম্পাদনা করুন, খসড়া রাখুন অথবা প্রকাশ করুন।</p></div><button className="btn primary" onClick={()=>{clearEditor();setEditing(true);}}>＋ নতুন সংবাদ</button></div>
@@ -114,6 +114,6 @@ export default function AdminPanel() {
         </div><label className="switchline"><input type="checkbox" checked={form.is_published} onChange={e=>update("is_published",e.target.checked)}/><span>এখনই প্রকাশ করুন</span></label><div className="form-actions"><button className="btn primary" disabled={working}>{working?"সংরক্ষণ হচ্ছে…":postId?"পরিবর্তন সংরক্ষণ":"সংরক্ষণ করুন"}</button><button className="btn" type="button" onClick={clearEditor}>বাতিল</button></div></form></section>}
         <section className="panel post-list"><div className="list-head"><h2>সব সংবাদ</h2><span className="status">{posts.length}টি সংবাদ</span></div>{posts.length?posts.map(post=><article className="post-row" key={post.id}><img src={post.cover_image||"https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=220&q=75"} alt=""/><div><h3>{post.title}<span className={`badge ${post.is_published?"live":""}`}>{post.is_published?"প্রকাশিত":"খসড়া"}</span></h3><small>{post.category} · /{post.slug} · {post.updated_at?bnDate(post.updated_at):""}</small></div><div className="row-actions"><button className="btn" onClick={()=>beginEdit(post)}>সম্পাদনা</button><button className="btn danger" onClick={()=>removePost(post)}>মুছুন</button></div></article>):<div className="empty">এখনও কোনো সংবাদ নেই। “নতুন সংবাদ” দিয়ে শুরু করুন।</div>}</section></>}
       {session&&!isAdmin&&!error&&<section className="panel login-panel"><h2>অনুমতি যাচাই হচ্ছে…</h2></section>}
-    </main><footer className="footer"><div className="wrap">© ২০২৬ আজকের আলো · কেবল অনুমোদিত সম্পাদকরা এই প্যানেল ব্যবহার করতে পারবেন।</div></footer>
+    </main><footer className="footer"><div className="wrap">© ২০২৬ সময়ের পথ · কেবল অনুমোদিত সম্পাদকরা এই প্যানেল ব্যবহার করতে পারবেন।</div></footer>
   </>;
 }

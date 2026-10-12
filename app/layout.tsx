@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "আজকের আলো | বাংলা সংবাদ",
-  description: "সত্যের পথে, মানুষের পাশে — আজকের আলো বাংলা সংবাদপত্র।",
+  title: "সময়ের পথ | বাংলা সংবাদ",
+  description: "সময়ের সঙ্গে, সত্যের পথে — সময়ের পথ বাংলা সংবাদপত্র।",
   metadataBase: new URL("https://ajker-alo.vercel.app"),
 };
 
