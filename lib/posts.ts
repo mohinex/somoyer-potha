@@ -28,10 +28,16 @@ export async function getPublishedPosts(): Promise<Post[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
+  let normalizedSlug = slug;
+  try {
+    normalizedSlug = decodeURIComponent(slug);
+  } catch {
+    // Keep the original value if the route parameter is not URI-encoded.
+  }
   const supabase = getSupabase();
   if (supabase) {
-    const { data, error } = await supabase.from("posts").select("id,title,slug,category,excerpt,content,cover_image,image_alt,author,is_published,published_at,updated_at").eq("slug", slug).eq("is_published", true).maybeSingle();
+    const { data, error } = await supabase.from("posts").select("id,title,slug,category,excerpt,content,cover_image,image_alt,author,is_published,published_at,updated_at").eq("slug", normalizedSlug).eq("is_published", true).maybeSingle();
     if (!error && data) return data as Post;
   }
-  return migratedPosts.find(post => post.slug === slug) || null;
+  return migratedPosts.find(post => post.slug === normalizedSlug || encodeURIComponent(post.slug) === slug) || null;
 }
