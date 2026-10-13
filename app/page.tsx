@@ -31,7 +31,9 @@ export default function HomePage() {
         if (active && !error && data?.value) setSettings(normalizeSiteSettings(data.value));
       });
       supabase.from("posts").select("id,title,slug,category,excerpt,content,cover_image,image_alt,author,is_published,published_at,updated_at").eq("is_published", true).order("published_at", { ascending:false }).limit(100).then(({ data, error }) => {
-        if (active && !error && data) setPosts(data as Post[]);
+        // Keep the migrated stories visible until the first database import.
+        // Once Supabase contains published posts, its content takes over.
+        if (active && !error && data?.length) setPosts(data as Post[]);
       });
     });
     return () => { active = false; };
