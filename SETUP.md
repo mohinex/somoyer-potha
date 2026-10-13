@@ -1,24 +1,27 @@
-# সময়ের পথ (Somoyer Potha) — Next.js ও admin panel
+# সময়ের পথ — সংবাদ ও সাইট অ্যাডমিন
 
-সাইটটি Next.js App Router-এ চলে। হোমপেজের বর্তমান সংবাদপত্রের ডিজাইন রাখা হয়েছে। `/admin`-এ অনুমোদিত সম্পাদক খবর যোগ, সম্পাদনা, খসড়া/প্রকাশ, ছবি upload ও delete করতে পারবেন। `/article/[slug]`-এ প্রকাশিত খবরের বিস্তারিত দেখা যায়।
+লাইভ সাইটে `/admin` থেকে সংবাদ তৈরি, সম্পাদনা, প্রকাশ/খসড়া, ছবি upload ও delete করা যায়। **সাইট সেটিংস** থেকে সাইটের নাম, স্লোগান, breaking ticker, ক্যাটাগরি, footer পরিচিতি এবং যোগাযোগের ইমেইল বদলানো যায়। ডেটাবেস যুক্ত হলে আগের ২১টি সংবাদও অ্যাডমিন থেকে import করা যাবে।
 
-## Supabase একবার সংযুক্ত করুন
+## একবারের backend সংযোগ
 
-1. Supabase-এ একটি project তৈরি করুন।
-2. Dashboard-এর **SQL Editor**-এ `supabase/schema.sql`-এর সব SQL চালান। এতে posts table, admin-only RLS policies, public image bucket ও নমুনা খবর তৈরি হবে।
-3. Supabase **Project Settings → API** থেকে project URL এবং anon/public key নিন। Vercel Project → **Settings → Environment Variables**-এ এগুলো যোগ করুন:
-   - `NEXT_PUBLIC_SUPABASE_URL` = Supabase project URL
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = Supabase anon/public key
+সাইটের অ্যাডমিন চালাতে Supabase project লাগবে। Project-এর owner নিজে সংযোগটি সম্পন্ন করবেন:
 
-   `service_role` key কখনো environment-এর `NEXT_PUBLIC_` value হিসেবে বা browser-এ দেবেন না।
-4. Supabase **Authentication → Users → Add user** থেকে নিজের email/password দিয়ে admin account তৈরি করুন। Supabase confirmation চাইলে email থেকে confirm করুন।
-5. ওই user-এর UUID নিয়ে SQL Editor-এ চালান:
+1. Supabase project তৈরি করুন। **SQL Editor**-এ `supabase/schema.sql`-এর সম্পূর্ণ SQL চালান। এটি সংবাদ, সাইট সেটিংস, editor access policy এবং ছবির storage তৈরি করে।
+2. Supabase **Authentication → Providers/Settings**-এ public sign-up বন্ধ রাখুন। **Authentication → Users** থেকে শুধু আপনার admin user তৈরি করুন।
+3. ওই user-এর UUID নিয়ে SQL Editor-এ চালান:
 
    ```sql
    insert into public.admins (user_id) values ('YOUR_AUTH_USER_UUID');
    ```
 
-6. Vercel-এ নতুন deploy করুন। তারপর `https://ajker-alo.vercel.app/admin` থেকে প্রবেশ করুন।
+4. Supabase **Project Settings → API** থেকে Project URL ও anon/public key নিন। Vercel Project → **Settings → Environment Variables**-এ `Production` এবং `Preview`-এর জন্য যোগ করুন:
+   - `NEXT_PUBLIC_SUPABASE_URL` = Project URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = anon/public key
+
+   `service_role` key কখনো browser-এ বা `NEXT_PUBLIC_` variable-এ দেবেন না।
+5. Vercel-এ নতুন deployment হওয়ার পর `https://somoyerpotha.com/admin` খুলে admin account দিয়ে login করুন। **আগের সাইটের সংবাদ আনুন** চাপলে ২১টি পুরনো সংবাদ ডেটাবেসে যাবে।
+
+এরপর পোস্ট ও সাইট সেটিংস database-এ সংরক্ষিত হবে। Public visitor শুধু প্রকাশিত পোস্ট পড়তে পারবে; পরিবর্তন করতে পারবে শুধু `admins` তালিকার user।
 
 ## লোকালি চালানো
 
@@ -29,4 +32,4 @@ npm install
 npm run dev
 ```
 
-Database key না থাকলে homepage নমুনা খবর দেখায় এবং admin panel setup নির্দেশনা দেখায়। Database যুক্ত হলে homepage প্রকাশিত খবরগুলো database থেকে load করে। Public visitor শুধু published খবর পড়তে পারে; admin তালিকায় অনুমোদিত user-রাই লেখা তৈরি বা পরিবর্তন করতে পারেন।
+Backend variables না থাকলে সাইট migrated content দেখায়, আর `/admin` backend connection-এর নির্দেশনা দেখায়।
