@@ -8,11 +8,11 @@ export type SiteSettings = {
 };
 
 export const defaultSiteSettings: SiteSettings = {
-  siteName: "সময়ের পথ",
+  siteName: "সময়ের পথে",
   tagline: "সময়ের সঙ্গে, সত্যের পথে",
   breakingText: "দেশজুড়ে নানা উদ্যোগে বদলে যাচ্ছে মানুষের জীবনযাত্রা • আজকের সব খবর পড়ুন এখানে",
   categories: ["বাংলাদেশ", "রাজনীতি", "বিশ্ব", "ব্যবসা", "মতামত", "খেলা", "বিনোদন", "চাকরি", "জীবনযাপন", "শিক্ষা", "প্রযুক্তি", "পরিবেশ"],
-  aboutText: "সময়ের পথ — সময়ের সঙ্গে, সত্যের পথে।",
+  aboutText: "সময়ের পথে — সময়ের সঙ্গে, সত্যের পথে।",
   contactEmail: "",
 };
 
@@ -22,8 +22,10 @@ export function normalizeSiteSettings(value: unknown): SiteSettings {
   return {
     ...defaultSiteSettings,
     ...input,
+    siteName: input.siteName && input.siteName !== "সময়ের পথ" ? input.siteName : defaultSiteSettings.siteName,
     categories: Array.isArray(input.categories) && input.categories.length
       ? input.categories.filter((item): item is string => typeof item === "string" && item.trim().length > 0).map(item => item.trim())
       : defaultSiteSettings.categories,
   };
 }
+

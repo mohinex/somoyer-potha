@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "সময়ের পথ | বাংলা সংবাদ",
-  description: "সময়ের সঙ্গে, সত্যের পথে — সময়ের পথ বাংলা সংবাদপত্র।",
+  title: "সময়ের পথে | বাংলা সংবাদ",
+  description: "সময়ের সঙ্গে, সত্যের পথে — সময়ের পথে বাংলা সংবাদপত্র।",
   metadataBase: new URL("https://somoyerpotha.com"),
 };
 

@@ -128,7 +128,7 @@ export default function AdminPanel() {
   };
 
   return <>
-    <header className="top"><div className="wrap head"><Link className="brand" href="/">সময়ের পথ<small>সময়ের সঙ্গে, সত্যের পথে</small></Link><nav className="head-links"><Link href="/">সাইট দেখুন ↗</Link>{session?.user?.email&&<><span>{session.user.email}</span><button className="btn" onClick={()=>supabase!.auth.signOut()}>লগ আউট</button></>}</nav></div></header>
+    <header className="top"><div className="wrap head"><Link className="brand" href="/">সময়ের পথে<small>সময়ের সঙ্গে, সত্যের পথে</small></Link><nav className="head-links"><Link href="/">সাইট দেখুন ↗</Link>{session?.user?.email&&<><span>{session.user.email}</span><button className="btn" onClick={()=>supabase!.auth.signOut()}>লগ আউট</button></>}</nav></div></header>
     <main className="wrap">
       {!supabase&&<section className="panel login-panel"><h2>Backend সেটআপ বাকি</h2><p className="muted">লাইভ অ্যাডমিন চালু করতে ডেটাবেস, নিরাপদ লগইন এবং ছবি রাখার storage যুক্ত করতে হবে। ধাপগুলো repository-র SETUP.md-এ আছে। শুধু public anon key ব্যবহার করুন; service_role key কখনো browser-এ দেবেন না।</p></section>}
       {supabase&&!session&&<section className="panel login-panel"><h2>অ্যাডমিন লগইন</h2><p className="muted">অনুমোদিত account দিয়ে প্রবেশ করুন।</p>{error&&<div className="error">{error}</div>}<form onSubmit={login}><label className="field"><span>ইমেইল</span><input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)}/></label><label className="field"><span>পাসওয়ার্ড</span><input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)}/></label><button className="btn primary">লগইন করুন</button></form></section>}
@@ -161,6 +161,6 @@ export default function AdminPanel() {
         </>}
       </>}
       {session&&!isAdmin&&!error&&<section className="panel login-panel"><h2>অনুমতি যাচাই হচ্ছে…</h2></section>}
-    </main><footer className="footer"><div className="wrap">© ২০২৬ সময়ের পথ · কেবল অনুমোদিত সম্পাদকরা এই প্যানেল ব্যবহার করতে পারবেন।</div></footer>
+    </main><footer className="footer"><div className="wrap">© ২০২৬ সময়ের পথে · কেবল অনুমোদিত সম্পাদকরা এই প্যানেল ব্যবহার করতে পারবেন।</div></footer>
   </>;
 }
