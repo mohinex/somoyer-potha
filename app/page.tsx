@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { migratedPosts, type Post } from "@/lib/posts";
 import { defaultSiteSettings, normalizeSiteSettings, type SiteSettings } from "@/lib/site-settings";
-import MastheadBanner from "@/components/masthead-banner";
 
 const formatDate = (date: string | null) => date ? new Intl.DateTimeFormat("bn-BD", { dateStyle:"medium", timeStyle:"short" }).format(new Date(date)) : "এখনই প্রকাশিত";
 
@@ -50,7 +49,7 @@ export default function HomePage() {
   return <>
     <div className="topline"><div className="wrap"><div className="top-left"><span>{new Intl.DateTimeFormat("bn-BD", { weekday:"long", day:"numeric", month:"long", year:"numeric", timeZone:"Asia/Dhaka" }).format(new Date())}</span><span className="weather">ঢাকা ☀ ৩১°</span></div><div className="top-right"><a href="#">ই-পেপার</a><a href="#">English</a><button onClick={() => setDark(value => !value)} aria-label="থিম বদলান">{dark ? "☀️" : "🌙"}</button></div></div></div>
     <div>
-      <header><div className="wrap masthead"><MastheadBanner siteName={settings.siteName} tagline={settings.tagline} /><div className="mast-actions"><Link href="/admin" className="admin-link">অ্যাডমিন লগইন</Link><button className="icon-btn" onClick={() => setSearchOpen(value => !value)} aria-label="খুঁজুন"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></button><button className="icon-btn mobile-menu" aria-label="মেনু">☰</button></div></div>
+      <header><div className="wrap masthead"><Link href="/" className="brand">{settings.siteName}<small>{settings.tagline}</small></Link><div className="mast-actions"><Link href="/admin" className="admin-link">অ্যাডমিন লগইন</Link><button className="icon-btn" onClick={() => setSearchOpen(value => !value)} aria-label="খুঁজুন"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></button><button className="icon-btn mobile-menu" aria-label="মেনু">☰</button></div></div>
         <div className="nav-wrap"><nav className="wrap nav"><a className="active" href="#latest">সর্বশেষ</a>{settings.categories.slice(0,10).map(item=><a key={item} href={`#${sectionId(item)}`}>{item}</a>)}</nav></div><div className="subnav"><div className="wrap"><div className="sub-links">{settings.categories.slice(10,15).map(item=><a key={item} href={`#${sectionId(item)}`}>{item}</a>)}</div><span>আজকের বিশেষ প্রতিবেদন</span></div></div>
       </header>
       {searchOpen && <form className="search-panel open" onSubmit={event=>{event.preventDefault(); if(query.trim()) alert(`“${query.trim()}” খুঁজে দেখা হচ্ছে`);}}><input autoFocus value={query} onChange={event=>setQuery(event.target.value)} placeholder="যা খুঁজতে চান লিখুন" aria-label="খুঁজুন"/><button>খুঁজুন</button></form>}
